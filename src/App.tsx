@@ -111,11 +111,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-100 to-indigo-200 flex flex-col">
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-4xl font-extrabold text-rose-500 flex mb-6 transition-transform transform hover:scale-105">
+          <FileJson className="mr-3 h-10 w-10 text-rose-600" /> JSON Formatter
+        </h1>
+        <h2 className="text-3xl font-semibold text-white-700 flex mb-4">Perfect JSON, Every Time. Powered by AI</h2>
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl">
           <div className="p-8 sm:p-10">
-            <h1 className="text-3xl font-bold text-rose-500 flex items-center justify-center mb-8">
-              <FileJson className="mr-2 h-8 w-8" /> JSON Formatter
-            </h1>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <label htmlFor="input" className="block text-lg font-semibold text-gray-700">
