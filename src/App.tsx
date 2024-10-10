@@ -1,5 +1,56 @@
-import React, { useState } from 'react'
-import { FileJson, ArrowRightLeft, AlertCircle, Check, Github, Search } from 'lucide-react'
+/* eslint-disable */
+import { useState } from 'react'
+import { FileJson, ArrowRightLeft, AlertCircle, Check, Github, Search, Wand2, ChevronRight, ChevronDown } from 'lucide-react'
+import OpenAI from 'openai'
+
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true // Note: This is not recommended for production
+})
+
+const CollapsibleJSON: React.FC<{ data: any }> =({ data }) => {
+  const [isCollapsed, setIsCollapsed] = useState({});
+
+  const toggleCollapse = (key) => {
+    setIsCollapsed(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const renderValue = (value: any, key: any) => {
+    if (typeof value === 'object' && value !== null) {
+      const isArray = Array.isArray(value);
+      return (
+        <div key={key}>
+          <span
+            onClick={() => toggleCollapse(key)}
+            className="cursor-pointer inline-flex items-center"
+          >
+            {isCollapsed[key] ? <ChevronRight className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {isArray ? '[' : '{'}
+          </span>
+          {!isCollapsed[key] && (
+            <div className="ml-4">
+              {Object.entries(value).map(([k, v]) => (
+                <div key={k}>
+                  <span className="text-blue-600">{isArray ? '' : `"${k}": `}</span>
+                  {renderValue(v, `${key}.${k}`)}
+                </div>
+              ))}
+            </div>
+          )}
+          {isCollapsed[key] && <span>...</span>}
+          <span>{isArray ? ']' : '}'}</span>
+        </div>
+      );
+    }
+    return (
+      <span className={typeof value === 'string' ? 'text-green-600' : 'text-red-600'}>
+        {JSON.stringify(value)}
+      </span>
+    );
+  };
+
+  return <div>{renderValue(data, 'root')}</div>;
+};
 
 function App() {
   const [input, setInput] = useState('')
@@ -8,6 +59,8 @@ function App() {
   const [aiExplanation, setAiExplanation] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isFormatted, setIsFormatted] = useState(false)
+  const [showFixButton, setShowFixButton] = useState(false)
+  const [isAiFixing, setIsAiFixing] = useState(false)
 
   const formatJSON = async () => {
     setIsLoading(true)
@@ -21,11 +74,39 @@ function App() {
     } catch (e) {
       setError('Invalid JSON: ' + (e as Error).message)
       setOutput('')
-      setAiExplanation("AI explanation would appear here if connected to OpenAI API.")
+      setShowFixButton(true)
     } finally {
       setIsLoading(false)
     }
   }
+
+  const fixJSON = async () => {
+    setIsAiFixing(true)
+    try {
+      const completion = await openai.chat.completions.create({
+        messages: [
+          { role: "system", content: "You are a helpful assistant that fixes JSON structures. Respond only with the fixed JSON, nothing else." },
+          { role: "user", content: `Fix this JSON: ${input}` }
+        ],
+        model: "gpt-3.5-turbo",
+      });
+      const fixedJsonString: any = completion.choices[0].message.content;
+      try {
+        setOutput(JSON.stringify(JSON.parse(fixedJsonString), null, 2));
+        setIsFormatted(true);
+        setError('');
+        setShowFixButton(false);
+      } catch (parseError) {
+        setError("AI couldn't fix the JSON. Please check your input and try again.");
+      }
+    } catch (aiError) {
+      setError('Failed to get AI fix: ' + (aiError as Error).message);
+    } finally {
+      setIsLoading(false);
+      setIsAiFixing(false);
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-100 to-indigo-200 flex flex-col">
@@ -58,19 +139,18 @@ function App() {
                 <label htmlFor="output" className="block text-lg font-semibold text-gray-700">
                   Formatted JSON
                 </label>
-                <textarea
+                <div
                   id="output"
-                  className="w-full h-80 p-4 border-2 border-gray-200 rounded-lg bg-white"
-                  value={output}
-                  readOnly
-                  placeholder="Formatted JSON will appear here..."
+                  className="w-full h-80 p-4 border-2 border-gray-200 rounded-lg bg-white overflow-auto"
                   style={{
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                   }}
-                />
+                >
+                  {isFormatted && <CollapsibleJSON data={JSON.parse(output)} />}
+                </div>
               </div>
             </div>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center w-100">
               <button
                 onClick={formatJSON}
                 className={`
@@ -95,6 +175,30 @@ function App() {
                   </>
                 )}
               </button>
+             { showFixButton && (<button
+                onClick={fixJSON}
+                className={`
+                  inline-flex items-center px-6 py-3 ml-5 border border-transparent text-lg font-semibold rounded-full shadow-lg text-white
+                  ${isAiFixing ? 'bg-indigo-400 cursor-not-allowed' : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-4 focus:ring-indigo-300'}
+                  transition-all duration-200 ease-in-out transform hover:scale-105
+                `}
+                disabled={isLoading || isAiFixing}
+              >
+                {isAiFixing ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    AI Fixing...
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="mr-2 -ml-1 h-6 w-6" />
+                    Fix with AI
+                  </>
+                )}
+              </button>)}
             </div>
           </div>
           {(error || isFormatted) && (
