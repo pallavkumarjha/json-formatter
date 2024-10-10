@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { useState } from 'react'
-import { FileJson, ArrowRightLeft, AlertCircle, Check, Github, Search, Wand2, ChevronRight, ChevronDown } from 'lucide-react'
+import { FileJson, ArrowRightLeft, AlertCircle, Check, Search, Wand2, ChevronRight, ChevronDown } from 'lucide-react'
+import { Analytics } from "@vercel/analytics/react"
 import OpenAI from 'openai'
 
 const openai = new OpenAI({
@@ -240,6 +241,7 @@ function App() {
           </p>
         </div>
       </footer>
+      <Analytics />
     </div>
   )
 }
