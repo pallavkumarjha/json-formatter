@@ -238,9 +238,6 @@ function App() {
           <p className="text-center text-sm">
             &copy; 2024 JSON Formatter. All rights reserved.
           </p>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors duration-200">
-            <Github className="h-6 w-6" />
-          </a>
         </div>
       </footer>
     </div>
