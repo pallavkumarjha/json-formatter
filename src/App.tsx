@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useState } from 'react'
-import { FileJson, ArrowRightLeft, AlertCircle, Check, Search, Wand2, ChevronRight, ChevronDown } from 'lucide-react'
+import { FileJson, ArrowRightLeft, AlertCircle, Check, Search, Wand2, ChevronRight, ChevronDown, CoffeeIcon } from 'lucide-react'
 import { Analytics } from "@vercel/analytics/react"
 import OpenAI from 'openai'
 
@@ -239,6 +239,20 @@ function App() {
           <p className="text-center text-sm">
             &copy; 2024 JSON Formatter. All rights reserved.
           </p>
+          <p className="text-center text-sm">
+          <button
+              onClick={() => window.open('https://buymeacoffee.com/pallavjha', '_blank')}
+              className={`
+                inline-flex items-center px-4 py-2 text-sm 
+                bg-transparent focus:ring-4 focus:ring-yellow-300
+                transition-all duration-200 ease-in-out transform hover:scale-105
+              `}
+            >
+              <CoffeeIcon style={{ marginRight: '12px'}} />
+              Buy Me a Coffee
+            </button>
+          </p>
+
         </div>
       </footer>
       <Analytics />
