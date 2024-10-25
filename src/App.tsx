@@ -65,7 +65,7 @@ function App() {
   const [isFormatted, setIsFormatted] = useState(false)
   const [showFixButton, setShowFixButton] = useState(false)
   const [isAiFixing, setIsAiFixing] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(false)
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
