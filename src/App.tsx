@@ -2,8 +2,11 @@
 import { useState } from 'react'
 import { FileJson, ArrowRightLeft, AlertCircle, Check, Wand2, ChevronRight, ChevronDown, CoffeeIcon, SunIcon, MoonIcon } from 'lucide-react'
 import { Analytics } from "@vercel/analytics/react"
+import Lottie from 'lottie-react';
 import OpenAI from 'openai'
+import animationData from './animations/hamster.json'; // Make sure to replace with the correct path
 
+import './app.css'
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true // Note: This is not recommended for production
@@ -255,6 +258,9 @@ function App() {
         <p className={`text-sm font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 justify-center font-sans text-center rounded-lg p-4`}>
           AI can make mistakes. Please double check the output.
         </p>
+        <Lottie animationData={animationData} loop={true} 
+          style={{ width: 100, height: 100, position: 'fixed', top: '50px', left: '10px', opacity: 0.5 }} 
+          className="rounded-full mx-auto" />
       </main>
       <footer className={`bg-gray-900 text-white mt-16 ${isDarkMode ? 'bg-gray-800' : ''}`}>
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
