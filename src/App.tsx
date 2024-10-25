@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useState } from 'react'
-import { FileJson, ArrowRightLeft, AlertCircle, Check, Search, Wand2, ChevronRight, ChevronDown, CoffeeIcon } from 'lucide-react'
+import { FileJson, ArrowRightLeft, AlertCircle, Check, Wand2, ChevronRight, ChevronDown, CoffeeIcon, SunIcon, MoonIcon } from 'lucide-react'
 import { Analytics } from "@vercel/analytics/react"
 import OpenAI from 'openai'
 
@@ -62,6 +62,11 @@ function App() {
   const [isFormatted, setIsFormatted] = useState(false)
   const [showFixButton, setShowFixButton] = useState(false)
   const [isAiFixing, setIsAiFixing] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const formatJSON = async () => {
     setIsLoading(true)
@@ -108,26 +113,40 @@ function App() {
     }
   }
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-100 to-indigo-200 flex flex-col">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-rose-100 via-pink-100 to-indigo-200'} flex flex-col`}>
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-extrabold text-rose-500 flex mb-6 transition-transform transform hover:scale-105">
-          <FileJson className="mr-3 h-10 w-10 text-rose-600" /> JSON Formatter
-        </h1>
-        <h2 className="text-3xl font-semibold text-white-700 flex mb-4">Perfect JSON, Every Time. Powered by AI</h2>
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-4xl font-extrabold text-rose-500 flex transition-transform transform hover:scale-105">
+            <FileJson className="mr-3 h-10 w-10 text-rose-600" /> JSON Formatter & Fixer
+          </h1>
+          <button
+            onClick={toggleDarkMode}
+            className={`w-12 h-11 border border-transparent text-lg font-semibold rounded-full shadow-lg text-white flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 ${
+              isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-300' : 'bg-gray-500 hover:bg-gray-600 focus:ring-gray-300'
+            }`}
+          >
+            {isDarkMode ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+          </button>
+        </div>
+        <h2 className={`text-xl font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 font-sans`}>
+          Let AI Fix and Format for You!
+        </h2>
+        <div className={`bg-white ${isDarkMode ? 'bg-gray-800' : ''} rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl`}>
           <div className="p-8 sm:p-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <label htmlFor="input" className="block text-lg font-semibold text-gray-700">
+                <label htmlFor="input" className={`block text-lg font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Input JSON
                 </label>
                 <div className="relative">
-                  <Search className="absolute top-3 left-3 h-5 w-5 text-gray-400" />
                   <textarea
                     id="input"
-                    className="w-full h-80 p-4 pl-10 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200 ease-in-out bg-gray-50"
+                    className={`w-full h-96 p-4 pl-10 border-2 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-gray-50'} rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200 ease-in-out`}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Paste your JSON here..."
@@ -138,12 +157,12 @@ function App() {
                 </div>
               </div>
               <div className="space-y-4">
-                <label htmlFor="output" className="block text-lg font-semibold text-gray-700">
+                <label htmlFor="output" className={`block text-lg font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Formatted JSON
                 </label>
                 <div
                   id="output"
-                  className="w-full h-80 p-4 border-2 border-gray-200 rounded-lg bg-white overflow-auto"
+                  className={`w-full h-96 p-4 border-2 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-200 bg-white'} rounded-lg overflow-auto`}
                   style={{
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                   }}
@@ -234,10 +253,10 @@ function App() {
           )}
         </div>
       </main>
-      <footer className="bg-gray-900 text-white mt-12">
+      <footer className={`bg-gray-900 text-white mt-12 ${isDarkMode ? 'bg-gray-800' : ''}`}>
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <p className="text-center text-sm">
-            &copy; 2024 JSON Formatter. All rights reserved.
+            &copy; 2024 JSON Formatter. All rights reserved, except the ones we forgot to reserve.
           </p>
           <p className="text-center text-sm">
           <button
