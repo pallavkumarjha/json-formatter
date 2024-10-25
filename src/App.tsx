@@ -136,7 +136,7 @@ function App() {
         <h2 className={`text-xl font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 font-sans`}>
           Let AI Fix and Format for You!
         </h2>
-        <div className={`bg-white ${isDarkMode ? 'bg-gray-800' : ''} rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl`}>
+        <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl`}>
           <div className="p-8 sm:p-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-4">
