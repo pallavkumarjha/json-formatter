@@ -252,8 +252,11 @@ function App() {
             </div>
           )}
         </div>
+        <p className={`text-sm font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 justify-center font-sans text-center rounded-lg p-4`}>
+          AI can make mistakes. Please double check the output.
+        </p>
       </main>
-      <footer className={`bg-gray-900 text-white mt-12 ${isDarkMode ? 'bg-gray-800' : ''}`}>
+      <footer className={`bg-gray-900 text-white mt-16 ${isDarkMode ? 'bg-gray-800' : ''}`}>
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <p className="text-center text-sm">
             &copy; 2024 JSON Formatter. All rights reserved, except the ones we forgot to reserve.
