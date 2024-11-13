@@ -1,10 +1,14 @@
 /* eslint-disable */
 import { useState } from 'react'
-import { FileJson, ArrowRightLeft, AlertCircle, Check, Wand2, ChevronRight, ChevronDown, CoffeeIcon, SunIcon, MoonIcon } from 'lucide-react'
+import { FileJson, ArrowRightLeft, AlertCircle, Check, Wand2, ChevronRight, ChevronDown, SunIcon, MoonIcon, Mail, Linkedin } from 'lucide-react'
 import { Analytics } from "@vercel/analytics/react"
-import Lottie from 'lottie-react';
+// import Lottie from 'lottie-react';
 import OpenAI from 'openai'
-import animationData from './animations/hamster.json'; // Make sure to replace with the correct path
+// import animationData from './animations/hamster.json'; // Make sure to replace with the correct path
+
+// import Link from "next/link";
+import { Heart } from "lucide-react";
+// import Image from "next/image";
 
 import './app.css'
 const openai = new OpenAI({
@@ -121,7 +125,7 @@ function App() {
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-extrabold text-rose-500 flex transition-transform transform hover:scale-105">
-            <FileJson className="mr-3 h-10 w-10 text-rose-600" /> JSON Formatter & Fixer
+            <FileJson className="mr-3 h-10 w-10 text-rose-600" /> AI JSON Formatter & Fixer
           </h1>
           <button
             onClick={toggleDarkMode}
@@ -137,7 +141,7 @@ function App() {
           </button>
         </div>
         <h2 className={`text-xl font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 font-sans`}>
-          Let AI Fix and Format for You!
+          Format and fix JSON with AI.
         </h2>
         <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl`}>
           <div className="p-8 sm:p-10">
@@ -258,11 +262,143 @@ function App() {
         <p className={`text-sm font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} flex mb-4 justify-center font-sans text-center rounded-lg p-4`}>
           AI can make mistakes. Please double check the output.
         </p>
-        <Lottie animationData={animationData} loop={true} 
+        {/* <Lottie animationData={animationData} loop={true} 
           style={{ width: 100, height: 100, position: 'fixed', top: '50px', left: '10px', opacity: 0.5 }} 
-          className="rounded-full mx-auto" />
+          className="rounded-full mx-auto" /> */}
       </main>
-      <footer className={`bg-gray-900 text-white mt-16 ${isDarkMode ? 'bg-gray-800' : ''}`}>
+      <footer className={`bg-gray-900 text-white py-16  mt-16 ${isDarkMode ? 'bg-gray-800' : ''}`}>
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+          <div className="col-span-1 md:col-span-1">
+            <div className="flex flex-col md:flex-row md:items-start items-center md:justify-start justify-center">
+              <a
+                href="/"
+                className="text-3xl flex items-center space-x-2"
+              >
+                <span>AI JSON Formatter</span>
+              </a>
+            </div>
+            <p className="mt-2 text-sm italic text-center md:text-left">
+              Your ultimate JSON formatter!!
+            </p>
+            <div className="mt-4 text-center md:text-left">
+              <p className="text-sm">
+                Made with{" "}
+                <Heart className="inline-block w-4 h-4 text-indigo-500" /> by{" "}
+                <a
+                  href="https://x.com/the_visutor"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold underline hover:no-underline"
+                >
+                  Pallav
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="mb-2">Features</h3>
+            <ul className="space-y-2">
+              <li>
+                <span
+                  className="transition-colors"
+                >
+                  Format JSON
+                </span>
+              </li>
+              <li>
+                <span
+                  className="transition-colors"
+                >
+                  JSON fixer using AI
+                </span>
+              </li>
+              <li>
+                <span
+                  className="transition-colors"
+                >
+                  Upload JSON files{" "}
+                  <span className="ml-1 text-xs font-medium bg-orange-100 dark:bg-blue-900 text-orange-600 dark:text-blue-300 px-2 py-0.5 rounded-full">
+                    Coming Soon
+                  </span>
+                </span>
+              </li>
+              <li>
+                <span
+                  className="transition-colors"
+                >
+                  Diff Highlighter{" "}
+                  <span className="ml-1 text-xs font-medium bg-green-100 dark:bg-blue-900 text-green-600 dark:text-blue-300 px-2 py-0.5 rounded-full">
+                    Coming Soon
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-2">Connect With Me</h3>
+            <div className="flex justify-center md:justify-start space-x-3">
+                <a
+                href="mailto:pallavkumarjha26@gmail.com"
+                className="group"
+                >
+                <div className="w-7 h-7 rounded-full bg-pink-100 flex items-center justify-center group-hover:bg-pink-200 transition-colors">
+                  <Mail className="w-5 h-5 text-pink-500 group-hover:text-pink-600" />
+                </div>
+                </a>
+              <a
+                href="https://x.com/the_visutor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+              >
+                <div className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4 text-gray-700 group-hover:text-gray-800"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </div>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/pallavkumarjha/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+              >
+                <div className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+                  <Linkedin className="w-5 h-5 text-pink-500 group-hover:text-pink-600" />
+                </div>
+              </a>
+            </div>
+            <div className="mt-4">
+              <a
+                href="https://www.buymeacoffee.com/pallavjha"
+                target="_blank"
+                className="inline-flex items-center transition-colors"
+              >
+                <img
+                  src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                  alt="Buy Me A Coffee"
+                  style={{ height: "100%", width: "150px" }}
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center border-gray-200 dark:border-gray-700 pt-8">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            © {new Date().getFullYear()} JSON Formatter. All rights reserved, except the ones we forgot to reserve.
+          </p>
+        </div>
+      </div>
+    </footer>
+      {/* <footer className={`bg-gray-900 text-white mt-16 ${isDarkMode ? 'bg-gray-800' : ''}`}>
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <p className="text-center text-sm">
             &copy; 2024 JSON Formatter. All rights reserved, except the ones we forgot to reserve.
@@ -282,7 +418,7 @@ function App() {
           </p>
 
         </div>
-      </footer>
+      </footer> */}
       <Analytics />
     </div>
   )
